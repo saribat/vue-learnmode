@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui';
+import { getToken, getUsername} from "../utils/app";
 
 //创建axios，赋予变量
 //手把手地址
@@ -17,6 +18,8 @@ const service = axios.create({
 service.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     // 在请求头添加参数
+    config.headers['Tokey'] = getToken();
+    config.headers['UserName'] = getUsername();
     return config;
 }, function (error) {
     // 对请求错误做些什么

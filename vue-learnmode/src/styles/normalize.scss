@@ -7,13 +7,14 @@
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
+ /* div的默认样式不存在padding和margin为0的情况*/
  html, body, div, span, applet, object, iframe,
  h1, h2, h3, h4, h5, h6, p, blockquote, pre,
  a, abbr, acronym, address, big, cite, code,
  del, dfn, em, img, ins, kbd, q, s, samp,
  small, strike, strong, sub, sup, tt, var,
  b, u, i, center,
- dl, dt, dd, ol, ul, li,
+ dl, dt, dd, ol, ul,
  fieldset, form, label, legend,
  table, caption, tbody, tfoot, thead, tr, th, td,
  article, aside, canvas, details, embed, 
@@ -22,7 +23,6 @@
  time, mark, audio, video {
    margin: 0;
    padding: 0;
-   border: 0;
    font-size: 100%;
    font: inherit;
    vertical-align: baseline;
@@ -46,7 +46,9 @@
   
   body {
     margin: 0;
-    font-size: 14px;
+    background-color: #f7f7f7;
+    font-family: 'Microsoft YaHei';
+    font-size: 15px;
   }
   
   /**
@@ -96,7 +98,9 @@
   
   a {
     background-color: transparent;
+    text-decoration: none;
   }
+
   
   /**
    * 1. Remove the bottom border in Chrome 57-
@@ -167,6 +171,7 @@
    */
   
   img {
+    display: block;
     border-style: none;
   }
   

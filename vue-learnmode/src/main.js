@@ -8,9 +8,10 @@ import VueCompositionApi from '@vue/composition-api';
 
 //自定义全局组件
 import "./icons/index.js";
+//自定义全局方法
+//import global from "./utils/global";
 
 //引入路由
-
 import "./router/premit";
 
 
@@ -20,6 +21,7 @@ import "./router/premit";
 Vue.config.productionTip = false;
 Vue.use(VueCompositionApi);
 Vue.use(ElementUI);
+//Vue.use(global);
 new Vue({
   router,
   store,
