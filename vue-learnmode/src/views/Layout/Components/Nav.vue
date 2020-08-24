@@ -17,11 +17,13 @@
             <svg-icon :iconClass="item.meta.icon" :className="item.meta.icon" />
             <span slot="title">{{item.meta.name}}</span>
           </template>
-          <el-menu-item
-            v-for="(subitem) in item.children"
-            :key="subitem.id"
-            :index="subitem.path"
-          >{{subitem.meta.name}}</el-menu-item>
+          <template v-for="(subitem) in item.children">
+            <el-menu-item
+              v-if="!subitem.hidden"
+              :key="subitem.id"
+              :index="subitem.path"
+            >{{subitem.meta.name}}</el-menu-item>
+          </template>
         </el-submenu>
       </template>
     </el-menu>
@@ -101,6 +103,5 @@ export default {
     width: 70%;
     @include webkit(transition, all 0.3s ease 0s);
   }
-
 }
 </style>

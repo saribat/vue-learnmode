@@ -80,14 +80,15 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="45"></el-table-column>
-      <el-table-column prop="title" label="标题" width="830"></el-table-column>
+      <el-table-column prop="title" label="标题" width="750"></el-table-column>
       <el-table-column prop="categoryId" label="类别" width="130" :formatter="toCategory"></el-table-column>
       <el-table-column prop="createDate" label="日期" width="237" :formatter="toData"></el-table-column>
       <el-table-column prop="user" label="管理员" width="115"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" type="danger" @click="deleteItem(scope.row.id)">删除</el-button>
           <el-button size="mini" type="success" @click="editInfo(scope.row.id)">编辑</el-button>
+          <el-button size="mini" type="success" @click="detailed(scope.row)">编辑详情</el-button>
+          <el-button size="mini" type="danger" @click="deleteItem(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -113,7 +114,12 @@
     <!-- 新增弹窗-->
     <DialogInfo :flag="dialog_info" @close="closeDialog" :category="options.category" />
     <!-- 编辑弹窗-->
-    <DialogEditInfo :flag="dialog_info_edit" @close="closeDialog" :id="infoID" :category="options.category" />
+    <DialogEditInfo
+      :flag="dialog_info_edit"
+      @close="closeDialog"
+      :id="infoID"
+      :category="options.category"
+    />
   </div>
 </template>
 
@@ -207,6 +213,38 @@ export default {
     const editInfo = id => {
       infoID.value = id;
       dialog_info_edit.value = true;
+    };
+
+    /**
+     * 详情页
+     */
+
+    const detailed = data => {
+      //预先存值
+      // root.$store.commit("infoDetailed/SET_ID", data.id);
+      // root.$store.commit("infoDetailed/SET_TITLE", data.title);
+
+      root.$store.commit("infoDetailed/UPDATE_STATE_VALUE", {
+        id: {
+          value: data.id,
+          sessionKey: 'infoId',
+          session: true
+        },
+        title: {
+          value: data.title,
+          sessionKey: 'infoTitle',
+          session: true
+        }
+      });
+      //跳转页面
+      root.$router.push({
+        name: "InfoDetailed",
+        params: {
+          id: data.id,
+          title: data.title
+        }
+        // path:`/InfoDetailed/${data.id}/${data.title}`
+      });
     };
 
     //通过API获取数据
@@ -360,7 +398,8 @@ export default {
       handleSelectionChange,
       dialog_info_edit,
       editInfo,
-      infoID
+      infoID,
+      detailed
     };
   }
 };

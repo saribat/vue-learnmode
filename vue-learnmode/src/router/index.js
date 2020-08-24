@@ -2,10 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/Login/index.vue";
 import Console from "../views/Console/index.vue";
-import Layout from "../views/Layout/index.vue"
-import Info from "../views/Info/index.vue"
-import InfoCategory from "../views/Info/catagory.vue"
-import User from "../views/User/index.vue"
+import Layout from "../views/Layout/index.vue";
+import Info from "../views/Info/index.vue";
+import Detailed from "../views/Info/detailed.vue";
+import InfoCategory from "../views/Info/catagory.vue";
+import User from "../views/User/index.vue";
 
 Vue.use(VueRouter);
 
@@ -74,6 +75,16 @@ const routes = [
           name: '信息分类'
         },
         component: InfoCategory
+      },
+      {
+
+        path: "/infoDetailed",
+        name: "InfoDetailed",
+        hidden: true,
+        meta:{
+          name: '信息详情'
+        },
+        component: Detailed
       }
     ]
   },
