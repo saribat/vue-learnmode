@@ -25,8 +25,7 @@
               v-model="dateValue"
               type="datetimerange"
               format="yyyy 年 MM 月 dd 日"
-              value-format="yyyy-MM-dd HH:mm:ss"
-            >
+              value-format="yyyy-MM-dd HH:mm:ss"            
               align="right"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
@@ -40,14 +39,7 @@
         <div class="label-wrap key-word">
           <label for>关键字：</label>
           <div class="wrap-content">
-            <el-select v-model="search_Key" placeholder="请选择" style="width: 100%">
-              <el-option
-                v-for="item in searchOption"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+            <SelectVue :config="data.configOption" />
           </div>
         </div>
       </el-col>
@@ -127,6 +119,7 @@
 import { GetCategory, GetList, DeleteInfo } from "../../api/news";
 import DialogInfo from "./dialog/info";
 import DialogEditInfo from "./dialog/edit";
+import SelectVue from "../../components/Select/index";
 import {
   reactive,
   ref,
@@ -141,13 +134,18 @@ import { common } from "../../api/common";
 import { timestampToTime } from "../../utils/common";
 export default {
   name: "infoIndex",
-  components: { DialogInfo, DialogEditInfo },
+  components: { DialogInfo, DialogEditInfo , SelectVue},
   setup(props, { root }) {
     const { getInfoCategory, categoryItem } = common();
     const { str, confirm } = global();
 
     const options = reactive({
       category: []
+    });
+    const data = reactive({
+      configOption: {
+        init: ["id", "title"]
+      }
     });
     const total = ref(0);
 
@@ -198,6 +196,7 @@ export default {
         requestData.startTiem = dateValue.value[0];
         requestData.endTime = dateValue.value[1];
       }
+      console.log(search_Key.value)
       if (search_keywork.value) {
         requestData[search_Key.value] = search_keywork.value;
       }
@@ -207,6 +206,7 @@ export default {
       // else{
       //   requestData.title = search_keywork.value;
       // }
+      console.log(requestData)
       return requestData;
     };
 
@@ -377,6 +377,7 @@ export default {
     // );
 
     return {
+      data,
       options,
       categoryValue,
       dateValue,

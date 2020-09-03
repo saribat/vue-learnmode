@@ -7,7 +7,8 @@ const state = {
 }
 
 const getters = {
-    isCollapse: state => state.isCollapse
+    isCollapse: state => state.isCollapse,
+    roles: state => state.roles
 }
 
 const mutations = { //同步 不需要回调处理事情
