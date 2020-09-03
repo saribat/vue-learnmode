@@ -23,9 +23,15 @@ router.beforeEach((to, from, next)=>{ // to 下一个页面 from 上一个页面
              */
             if(store.getters['permission/roles'].length === 0){
                 store.dispatch('permission/getRoles').then(Response =>{
-                    let role = Response;
+                    let role = Response.role;
                     store.dispatch('permission/createRouter', role).then(Response =>{
-
+                        let addRouters = store.getters['permission/addRouters'];
+                        let allRouters = store.getters['permission/allRouters'];
+                        //路由更新
+                        router.options.routes = allRouters;
+                        //添加动态路由
+                        router.addRoutes(addRouters);
+                        next({ ...to, replace: true})
                     })
                 })
             }else{
