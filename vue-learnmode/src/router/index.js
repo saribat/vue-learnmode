@@ -61,6 +61,7 @@ export const defaultRouterMap = [{
 
 /**
  * 动态路由
+ *  sale,technician,manager
  */
 export const asnycRouterMap = [
   /**
@@ -71,6 +72,7 @@ export const asnycRouterMap = [
     name: "Info",
     component: Layout,
     meta: {
+      role: ['sale'],
       system: 'infoSystem',
       name: '信息管理',
       icon: "info"
@@ -80,6 +82,7 @@ export const asnycRouterMap = [
         path: "/infoIndex",
         name: "InfoIndex",
         meta: {
+          role: ['sale'],
           name: '信息列表'
         },
         component: Info
@@ -88,16 +91,17 @@ export const asnycRouterMap = [
         path: "/infoCatagory",
         name: "InfoCatagory",
         meta: {
+          role: ['sale'],
           name: '信息分类'
         },
         component: InfoCategory
       },
       {
-
         path: "/infoDetailed",
         name: "InfoDetailed",
         hidden: true,
         meta: {
+          role: ['sale'],
           name: '信息详情'
         },
         component: Detailed

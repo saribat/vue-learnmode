@@ -45,7 +45,7 @@
 <script>
 import sha1 from "js-sha1";
 import { reactive, ref, computed, watchEffect } from "@vue/composition-api";
-import { GetSystem, UserAdd, UserEdit } from "../../../api/user";
+import { GetRole, GetSystem, UserAdd, UserEdit } from "../../../api/user";
 //引用组件
 import CityPicker from "../../../components/CityPicker/index";
 import {
@@ -149,7 +149,7 @@ export default {
 
     const openDialog = () => {
       //角色请求
-      getSystem();
+      getRole();
       //初始值处理
       let editData = props.editData;
       if (editData.id) {
@@ -170,8 +170,8 @@ export default {
 
     //请求角色
 
-    const getSystem = () => {
-      GetSystem().then(Response => {
+    const getRole = () => {
+      GetRole().then(Response => {
         data.roleItem = Response.data.data;
       });
     };
@@ -239,7 +239,7 @@ export default {
       submit,
       resetForm,
       data,
-      getSystem,
+      getRole,
       userAdd,
       userEdit
     };

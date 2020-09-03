@@ -11,13 +11,16 @@ import "./icons/index.js";
 //自定义全局方法
 //import global from "./utils/global";
 
+//引入按钮权限
+import {buttonPermission} from "./utils/buttonPermission";
+
 //引入路由
 import "./router/premit";
 
 
 
 
-
+Vue.prototype.btnPerm = buttonPermission;
 Vue.config.productionTip = false;
 Vue.use(VueCompositionApi);
 Vue.use(ElementUI);

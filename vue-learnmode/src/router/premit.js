@@ -21,9 +21,12 @@ router.beforeEach((to, from, next)=>{ // to 下一个页面 from 上一个页面
              * 1.何时处理动态路由
              * 2.以什么条件处理动态路由
              */
-            if(store.getters['permission/roles'].length === 0){
+            if(store.getters['app/roles'].length === 0){
                 store.dispatch('permission/getRoles').then(Response =>{
                     let role = Response.role;
+                    let button = Response.button;
+                    store.commit('app/SET_ROLES', role);
+                    store.commit('app/SET_BUTTON', button);
                     store.dispatch('permission/createRouter', role).then(Response =>{
                         let addRouters = store.getters['permission/addRouters'];
                         let allRouters = store.getters['permission/allRouters'];

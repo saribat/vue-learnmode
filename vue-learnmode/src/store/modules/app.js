@@ -1,17 +1,28 @@
 import { Login } from "../../api/login";
 import { setToken, removeToken, removeUsername, setUsername, getUsername } from "../../utils/app";
 const state = {
+    roles: [],
+    buttonPermission: [],
     isCollapse: JSON.parse(sessionStorage.getItem('isCollapse')) || false,
     to_Ken: '',
     username: getUsername() || ""
 }
 
 const getters = {
+    roles: state => state.roles,
+    buttonPermission: state => state.buttonPermission,
     isCollapse: state => state.isCollapse,
     roles: state => state.roles
 }
 
 const mutations = { //同步 不需要回调处理事情
+    SET_ROLES(state, value){
+        state.roles = value;
+    },
+    SET_BUTTON(state, value){
+        state.buttonPermission = value;
+        console.log(state.buttonPermission)
+    },
     SET_COLLAPSE(state) {
         state.isCollapse = !state.isCollapse
         //html5存储
@@ -51,6 +62,7 @@ const actions = { // 异步 可以回调事件
             removeUsername();
             content.commit('SET_TOKEN', '');
             content.commit('SET_USERNAME', '');
+            content.commit('SET_ROLES', '');
             resolve();
         })
 
