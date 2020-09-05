@@ -77,7 +77,7 @@ export default {
       tableRow: {},
       dialog_add: false,
       configOption: {
-        init: ["name", "phone", "email"]
+        init: ["truename", "phone", "email"]
       },
       //搜索关键字
       key_word: "",

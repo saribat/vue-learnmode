@@ -4,10 +4,8 @@
       <svg-icon iconClass="menu" class="menu" />
     </div>
     <div class="pull-right">
-      <div class="user-info pull-left">
-        {{username}}
-      </div>
-      <div class="header-icon pull-left" @click="exit()">
+      <div class="user-info pull-left">{{username}}</div>
+      <div class="header-icon pull-left" @click="logout()">
         <svg-icon iconClass="exit" class="exit" />
       </div>
     </div>
@@ -21,11 +19,14 @@ export default {
   setup(props, { root }) {
     const username = computed(() => root.$store.state.app.username);
     //退出
-    const exit = () => {
-      root.$store.dispatch("app/exit").then(() => {
-        root.$router.push({
-          name: "Login"
-        })
+    const logout = () => {
+      root.$store.dispatch("app/logout").then(Response => {
+        if (Response.resCode === 0) {
+          root.$message.success("退出成功！");
+          root.$router.push({
+            name: "Login"
+          });
+        }
       });
     };
     const navMenuState = () => {
@@ -35,7 +36,7 @@ export default {
     return {
       navMenuState,
       username,
-      exit
+      logout
     };
   }
 };

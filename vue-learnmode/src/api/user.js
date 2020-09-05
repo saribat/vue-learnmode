@@ -22,6 +22,17 @@ export function GetSystem(data={}) {
 }
 
 /**
+ * 按钮权限
+ */
+export function GetPermButton(data={}) {
+    return service.request({
+        method: 'post',
+        url: '/permButton/',
+        data: data
+    })
+}
+
+/**
  * 新增用户
  */
 export function UserAdd(data) {

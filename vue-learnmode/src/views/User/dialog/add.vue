@@ -26,7 +26,7 @@
         <el-radio v-model="data.form.status" label="1">禁用</el-radio>
         <el-radio v-model="data.form.status" label="2">启用</el-radio>
       </el-form-item>
-      <el-form-item label="系统：" :label-width="data.formLabelWidth" prop="role">
+      <el-form-item label="角色：" :label-width="data.formLabelWidth" prop="role">
         <el-checkbox-group v-model="data.form.role">
           <el-checkbox
             v-for="item in data.roleItem"
@@ -34,6 +34,22 @@
             :label="item.role"
           >{{item.name}}</el-checkbox>
         </el-checkbox-group>
+      </el-form-item>
+      <el-form-item label="按钮权限：" :label-width="data.formLabelWidth">
+        <template v-if="data.btnPerm.length > 0">
+          <div v-for="item in data.btnPerm" :key="item.name">
+            <h4>{{ item.name}}</h4>
+            <template v-if="item.perm && item.perm.length > 0">
+              <el-checkbox-group v-model="data.form.btnPerm">
+                <el-checkbox
+                  v-for="button in item.perm"
+                  :key="button.value"
+                  :label="button.value"
+                >{{button.name}}</el-checkbox>
+              </el-checkbox-group>
+            </template>
+          </div>
+        </template>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -45,7 +61,13 @@
 <script>
 import sha1 from "js-sha1";
 import { reactive, ref, computed, watchEffect } from "@vue/composition-api";
-import { GetRole, GetSystem, UserAdd, UserEdit } from "../../../api/user";
+import {
+  GetRole,
+  GetSystem,
+  UserAdd,
+  UserEdit,
+  GetPermButton
+} from "../../../api/user";
 //引用组件
 import CityPicker from "../../../components/CityPicker/index";
 import {
@@ -120,6 +142,8 @@ export default {
       dialog_info_flag: false,
       //城市数据,
       cityPickerData: {},
+      //按钮权限
+      btnPerm: [],
       //用户表单
       form: {
         username: "",
@@ -129,7 +153,8 @@ export default {
         region: "",
         //是否启用,
         status: "2",
-        role: []
+        role: [],
+        btnPerm: []
       },
       rules: {
         username: [{ validator: validateUsername, trigger: "blur" }],
@@ -155,12 +180,13 @@ export default {
       if (editData.id) {
         //编辑
         editData.role = editData.role.split(",");
+        editData.btnPerm = editData.btnPerm ? editData.btnPerm.split(",") : [];
+        //循环JSON对象
+        for (let key in editData) {
+          data.form[key] = editData[key];
+        }
       } else {
         data.form.id && delete data.form.id;
-      }
-      //循环JSON对象
-      for (let key in editData) {
-        data.form[key] = editData.id ? editData[key] : "";
       }
     };
 
@@ -171,9 +197,16 @@ export default {
     //请求角色
 
     const getRole = () => {
-      GetRole().then(Response => {
-        data.roleItem = Response.data.data;
-      });
+      if (data.roleItem.length === 0) {
+        GetRole().then(Response => {
+          data.roleItem = Response.data.data;
+        });
+      }
+      if (data.btnPerm.length === 0) {
+        GetPermButton().then(Response => {
+          data.btnPerm = Response.data.data;
+        });
+      }
     };
 
     const resetForm = () => {
@@ -186,6 +219,7 @@ export default {
         if (valid) {
           let requestData = JSON.parse(JSON.stringify(data.form));
           requestData.role = requestData.role.join();
+          requestData.btnPerm = requestData.btnPerm.join();
           requestData.region = JSON.stringify(data.cityPickerData);
 
           if (requestData.id) {
@@ -217,7 +251,7 @@ export default {
     };
 
     const userEdit = requestData => {
-      console.log(requestData)
+      console.log(requestData);
       UserEdit(requestData)
         .then(Response => {
           root.$message.success(Response.data.message);

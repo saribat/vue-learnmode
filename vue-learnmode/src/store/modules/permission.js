@@ -64,6 +64,7 @@ const actions = { // 异步 可以回调事件
                         return item;
                     }
                 })
+                addRouters.push(asnycRouterMap[asnycRouterMap.length - 1])
             }
             
             //更新路由

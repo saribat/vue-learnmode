@@ -17,9 +17,9 @@ Vue.use(VueRouter);
  * 2.动态路由
  */
 
- /**
- * 默认路由
- */
+/**
+* 默认路由
+*/
 export const defaultRouterMap = [{
   path: "/",
   redirect: "Login",
@@ -56,6 +56,23 @@ export const defaultRouterMap = [{
       component: Console
     }
   ]
+},
+{
+  path: "/page404",
+  meta: {
+    name: "404"
+  },
+  hidden: true,
+  component: Layout,
+  children: [
+    {
+      path: "/404",
+      meta: {
+        name: "404"
+      },
+      component: () => import("../views/Login/404.vue")
+    }
+  ]
 }];
 
 
@@ -82,6 +99,7 @@ export const asnycRouterMap = [
         path: "/infoIndex",
         name: "InfoIndex",
         meta: {
+          keepAlive: true,
           role: ['sale'],
           name: '信息列表'
         },
@@ -101,6 +119,7 @@ export const asnycRouterMap = [
         name: "InfoDetailed",
         hidden: true,
         meta: {
+          keepAlive: true,
           role: ['sale'],
           name: '信息详情'
         },
@@ -130,6 +149,11 @@ export const asnycRouterMap = [
         component: User
       }
     ]
+  },
+  {
+    path: "*",
+    redirect: "/404",
+    hidden: true
   }];
 
 const routes = [
@@ -142,7 +166,7 @@ VueRouter.prototype.push = function push(location) {
 }
 
 const router = new VueRouter({
-  routes : defaultRouterMap
+  routes: defaultRouterMap
 });
 
 export default router;

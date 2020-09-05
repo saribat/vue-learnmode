@@ -107,8 +107,7 @@ export default {
         });
       });
       data.submitLoading = false;
-      resetForm();
-      emit("close");
+      close();
     };
 
     //单项数据流，父级到子级。不能反向做修改

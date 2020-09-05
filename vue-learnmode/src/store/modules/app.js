@@ -1,4 +1,4 @@
-import { Login } from "../../api/login";
+import { Login, Logout } from "../../api/login";
 import { setToken, removeToken, removeUsername, setUsername, getUsername } from "../../utils/app";
 const state = {
     roles: [],
@@ -16,12 +16,11 @@ const getters = {
 }
 
 const mutations = { //同步 不需要回调处理事情
-    SET_ROLES(state, value){
+    SET_ROLES(state, value) {
         state.roles = value;
     },
-    SET_BUTTON(state, value){
+    SET_BUTTON(state, value) {
         state.buttonPermission = value;
-        console.log(state.buttonPermission)
     },
     SET_COLLAPSE(state) {
         state.isCollapse = !state.isCollapse
@@ -56,14 +55,18 @@ const actions = { // 异步 可以回调事件
 
         })
     },
-    exit(content, requestData) {
+    logout(content, requestData) {
         return new Promise((resolve, reject) => {
-            removeToken();
-            removeUsername();
-            content.commit('SET_TOKEN', '');
-            content.commit('SET_USERNAME', '');
-            content.commit('SET_ROLES', '');
-            resolve();
+            Logout().then(Response => {
+                const data = Response.data;
+                removeToken();
+                removeUsername();
+                content.commit('SET_TOKEN', '');
+                content.commit('SET_USERNAME', '');
+                content.commit('SET_ROLES', '');
+                resolve(data);
+            })
+
         })
 
 

@@ -25,8 +25,9 @@ router.beforeEach((to, from, next)=>{ // to 下一个页面 from 上一个页面
                 store.dispatch('permission/getRoles').then(Response =>{
                     let role = Response.role;
                     let button = Response.button;
+                    let btnPerm = Response.btnPerm;
                     store.commit('app/SET_ROLES', role);
-                    store.commit('app/SET_BUTTON', button);
+                    store.commit('app/SET_BUTTON', btnPerm);
                     store.dispatch('permission/createRouter', role).then(Response =>{
                         let addRouters = store.getters['permission/addRouters'];
                         let allRouters = store.getters['permission/allRouters'];

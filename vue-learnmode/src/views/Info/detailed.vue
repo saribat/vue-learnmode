@@ -40,7 +40,8 @@ import {
   isRef,
   toRefs,
   computed,
-  watch
+  watch,
+  onActivated
 } from "@vue/composition-api";
 import { GetList, EditInfo } from "../../api/news";
 import { timestampToTime } from "../../utils/common";
@@ -151,8 +152,11 @@ export default {
 
     onMounted(() => {
       getInfoCategory();
-      getInfo();
     });
+    onActivated(()=>{
+      data.id =root.$route.params.id || root.$store.getters["infoDetailed/infoId"];
+      getInfo();
+    })
 
     return {
       data,

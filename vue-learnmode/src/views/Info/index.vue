@@ -54,6 +54,7 @@
       </el-col>
       <el-col :span="2">
         <el-button
+        v-if="btnPerm('info:add')"
           type="danger"
           class="pull-right"
           style="width: 100%"
@@ -78,9 +79,9 @@
       <el-table-column prop="user" label="管理员" width="115"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" type="success" @click="editInfo(scope.row.id)" v-if="btnPerm('info.edit')">编辑</el-button>
-          <el-button size="mini" type="success" @click="detailed(scope.row)" v-if="btnPerm('info.detailed')">编辑详情</el-button>
-          <el-button size="mini" type="danger" @click="deleteItem(scope.row.id)" v-if="btnPerm('info.delete')">删除</el-button>
+          <el-button size="mini" type="success" @click="editInfo(scope.row.id)" v-if="btnPerm('info:edit')">编辑</el-button>
+          <el-button size="mini" type="success" @click="detailed(scope.row)" v-if="btnPerm('info:detailed')">编辑详情</el-button>
+          <el-button size="mini" type="danger" @click="deleteItem(scope.row.id)" v-if="btnPerm('info:del')">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -127,7 +128,7 @@ import {
   isRef,
   toRefs,
   computed,
-  watch
+  watch, onActivated
 } from "@vue/composition-api";
 import { global } from "../../utils/global_V3.0";
 import { common } from "../../api/common";
@@ -366,6 +367,10 @@ export default {
       });
     });
 
+    onActivated(()=>{
+
+    })
+
     /**
      * watch
      */
@@ -417,5 +422,11 @@ export default {
   &.key-word {
     @include labelDom(right, 100, 40);
   }
+}
+button.hiden-button {
+  display: none;
+}
+button.show-button {
+  display: inline-block;
 }
 </style>

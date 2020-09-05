@@ -23,6 +23,17 @@ export function Login(data){
 }
 
 /**
+ * 登出
+ */
+export function Logout(data = {}){
+    return service.request({
+        method: 'post',
+        url: '/logout/',
+        data: data
+    })
+}
+
+/**
  * 获取用户角色
  */
 export function GetUserRole(data={}){

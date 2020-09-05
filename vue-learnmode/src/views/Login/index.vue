@@ -75,7 +75,14 @@
 <script>
 import sha1 from "js-sha1";
 import { GetSms, Register, Login } from "../../api/login";
-import { reactive, ref, onMounted, isRef, toRefs } from "@vue/composition-api";
+import {
+  reactive,
+  ref,
+  onMounted,
+  isRef,
+  toRefs,
+  onUnmounted
+} from "@vue/composition-api";
 import axios from "axios";
 import {
   stripscript,
@@ -231,7 +238,13 @@ export default {
             //调用计时器，倒计时
             countDown(60);
           })
-          .catch(error => {});
+          .catch(error => {
+            loginButtonStatus.value = false;
+            updataButtonStatus({
+              status: false,
+              text: "再次获取"
+            });
+          });
       }, 3000);
     };
 
@@ -359,6 +372,9 @@ export default {
     };
 
     onMounted(() => {});
+    onUnmounted(() => {
+      clearInterval(timer.value);
+    });
 
     return {
       menuTab,
