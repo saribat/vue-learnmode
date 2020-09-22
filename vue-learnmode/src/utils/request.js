@@ -4,7 +4,7 @@ import { getToken, getUsername} from "../utils/app";
 
 //创建axios，赋予变量
 //手把手地址
-const BASEURL = process.env.NODE_ENV === 'production' ? '' : '/devapi';
+const BASEURL = process.env.NODE_ENV === 'production' ? process.env.VUE_APP_API : process.env.VUE_APP_API;
 const service = axios.create({
     baseURL: BASEURL,
     timeout: 10000

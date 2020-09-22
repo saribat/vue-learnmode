@@ -18,11 +18,11 @@
         size="medium"
       >
         <el-form-item prop="username" class="item-form">
-          <label>邮箱</label>
+          <label>メールアドレス</label>
           <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="password" class="item-form">
-          <label>密码</label>
+          <label>パスワード</label>
           <el-input
             type="password"
             v-model="ruleForm.password"
@@ -33,7 +33,7 @@
         </el-form-item>
 
         <el-form-item prop="passwords" class="item-form" v-show="model==='register'">
-          <label>重复密码</label>
+          <label>パスワードを再入力</label>
           <el-input
             type="password"
             v-model="ruleForm.passwords"
@@ -43,7 +43,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item prop="code" class="item-form">
-          <label>验证码</label>
+          <label>認証コード</label>
 
           <el-row :gutter="10">
             <el-col :span="15">
@@ -66,7 +66,7 @@
             @click="submitForm('loginForm')"
             class="login-btn block"
             :disabled="loginButtonStatus"
-          >{{model ==="login" ? '登录':'注册'}}</el-button>
+          >{{model ==="login" ? 'ログイン':'登録'}}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -95,9 +95,9 @@ export default {
   setup(props, { refs, root }) {
     let validateUsername = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入用户名"));
+        callback(new Error("メールアドレスを入力してください"));
       } else if (validateEmail(value)) {
-        callback(new Error("用户名格式有误"));
+        callback(new Error("不正なメール形式"));
       } else {
         callback();
       }
@@ -106,9 +106,9 @@ export default {
       ruleForm.password = stripscript(value);
       value = ruleForm.password;
       if (value === "") {
-        callback(new Error("请输入密码"));
+        callback(new Error("パスワードを入力してください"));
       } else if (validatePass(value)) {
-        callback(new Error("密码格式有误！"));
+        callback(new Error("大文字と小文字と数字を含んでください。総長は8桁以上です！"));
       } else {
         callback();
       }
@@ -120,25 +120,25 @@ export default {
       ruleForm.passwords = stripscript(value);
       value = ruleForm.passwords;
       if (value === "") {
-        callback(new Error("请输入重复密码"));
+        callback(new Error("もう一度パスワードを入力してください"));
       } else if (value != ruleForm.password) {
-        callback(new Error("重复密码不匹配！"));
+        callback(new Error("繰り返しパスワードが一致しません！"));
       } else {
         callback();
       }
     };
     let validateCode = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("验证码不能为空"));
+        return callback(new Error("認証コードが空ではありません"));
       } else if (validateC(value)) {
-        return callback(new Error("验证码格式有误"));
+        return callback(new Error("認証コードエラー"));
       } else {
         callback();
       }
     };
     const menuTab = reactive([
-      { txt: "登录", current: true, type: "login" },
-      { txt: "注册", current: false, type: "register" }
+      { txt: "ログイン", current: true, type: "login" },
+      { txt: "登録", current: false, type: "register" }
     ]);
 
     const model = ref("login");
@@ -154,7 +154,7 @@ export default {
 
     const codeButtonStatus = reactive({
       status: false,
-      text: "获取验证码"
+      text: "認証コード"
     });
 
     const ruleForm = reactive({
@@ -207,11 +207,11 @@ export default {
      */
     const getSms = () => {
       if (ruleForm.username == "") {
-        root.$message.error("邮箱不可为空");
+        root.$message.error("メールアドレスは必ず記入してください");
         return false;
       }
       if (validateEmail(ruleForm.username)) {
-        root.$message.error("邮箱格式有误");
+        root.$message.error("メールのフォーマットが間違っています");
         return false;
       }
       //获取验证码
@@ -242,7 +242,7 @@ export default {
             loginButtonStatus.value = false;
             updataButtonStatus({
               status: false,
-              text: "再次获取"
+              text: "再取得"
             });
           });
       }, 3000);
@@ -349,7 +349,7 @@ export default {
           //修改获取验证码状态
           updataButtonStatus({
             status: false,
-            text: "再次获取"
+            text: "再取得"
           });
         } else {
           codeButtonStatus.text = `倒计时${time}秒`;
@@ -365,7 +365,7 @@ export default {
       //还原验证码状态
       updataButtonStatus({
         status: false,
-        text: "获取验证码"
+        text: "再取得"
       });
       //清楚倒计时
       clearInterval(timer.value);

@@ -41,7 +41,8 @@ import {
   toRefs,
   computed,
   watch,
-  onActivated
+  onActivated,
+  onDeactivated
 } from "@vue/composition-api";
 import { GetList, EditInfo } from "../../api/news";
 import { timestampToTime } from "../../utils/common";
@@ -156,6 +157,9 @@ export default {
     onActivated(()=>{
       data.id =root.$route.params.id || root.$store.getters["infoDetailed/infoId"];
       getInfo();
+    })
+    onDeactivated(()=>{
+      
     })
 
     return {
